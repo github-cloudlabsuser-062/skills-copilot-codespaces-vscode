@@ -1,0 +1,40 @@
+# Create a GitHub action to email a report from a file at 6 a.m. daily
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events
+name: Email Report
+on:
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  email-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Email Report
+        uses: dawidd6/action-send-mail@v2.4.0
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Daily Report"
+          body: "See attachment"
+          from: "Daily Report <${{ secrets.EMAIL_USERNAME }}>"
+          to: ${{ secrets.EMAIL_RECIPIENT }}
+          attachments: "report.txt"
+```
+
+The `EMAIL_USERNAME` and `EMAIL_PASSWORD` secrets are the credentials for the Gmail account that will be used to send the email. The `EMAIL_RECIPIENT` secret is the email address that the report will be sent to. The `report.txt` file is the report that will be attached to the email. The `body` can be specified as a file path, but the `subject` cannot.
+
+The action will be triggered daily at 6 a.m. and the report will be sent to the specified email address. The report can be generated using the `kubectl` command.
+
+```bash
+kubectl get pods > report.txt
+```
+
+The `report.txt` file will be attached to the email and sent to the specified email address. The `kubectl` command can be used to generate any report that is required. The `kubectl` command can be run on a local machine or on a GitHub action.
+
+## References
+
+- [Kubernetes in Action, 2nd Edition](https://www.manning.com/books/kubernetes-in-action-second-edition)
+- [Kubernetes in Action, 2nd Edition Source Code](
