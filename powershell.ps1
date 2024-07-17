@@ -1,33 +1,22 @@
-
-# Set variables
-$resourceGroupName = "example-resources"
-$location = "West Europe"
-
-# Check if PowerShell is installed
-if (-not (Get-Command PowerShell -ErrorAction SilentlyContinue)) {
-    # Install PowerShell
-    Write-Host "PowerShell is not installed. Installing..."
-    # Add code to install PowerShell here
-    # ...
-    Write-Host "PowerShell installed successfully."
+#Install the Az PowerShell module if not already installed
+ 
+if (not (Get-Module Name Az -ListAvailable)) {
+Install-Module Name Az -Scope CurrentUser -Repository PSGallery 
 }
-
-# Login to Azure
+ 
+#Authenticate to Azure
+ 
 Connect-AzAccount
-
-# Set variables
-$resourceGroupName = "example-resources"
-$storageAccountName = "examplestorageacc"
-
-# Create a resource group
-New-AzResourceGroup -Name $resourceGroupName -Location $location
-
-# Create a storage account
-New-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -Location $location -SkuName Standard_GRS
-$storageAccountName = "examplestorageacc"
-
-# Create a resource group
-New-AzResourceGroup -Name $resourceGroupName -Location $location
-
-# Create a storage account
-New-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -Location $location -SkuName Standard_GRS
+ 
+#Set variables for the resource group and storage account
+ 
+$resourceGroupName = "example-resource-group"
+ 
+$location = "eastus"
+ 
+$storageAccountName = "examplestorageaccount"
+ 
+$skuName = "Standard_LRS"
+ 
+#Create the resource group
+New-AzResourceGroup -Name $resourceGroupName - Location $location
